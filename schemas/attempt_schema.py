@@ -1,10 +1,13 @@
 from datetime import datetime
 from pydantic import BaseModel, Field
+import pytz
+
+lima_tz = pytz.timezone("America/Lima")
 
 class AttemptSchema(BaseModel):
     time: float
     errors_quantity: int
-    date: str = Field(default_factory=lambda: datetime.utcnow().isoformat())
+    date: str = Field(default_factory=lambda: datetime.now(lima_tz).replace(microsecond=0).strftime("%Y-%m-%d %H:%M:%S"))
 
 class AttemptDto(BaseModel):
     time: float

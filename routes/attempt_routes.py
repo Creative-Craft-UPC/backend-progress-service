@@ -7,6 +7,10 @@ from schemas.attempt_schema import AttemptDto, AttemptResponse, AttemptSchema
 from helpers.attempt_helper import attempt_helper
 from database.database import attempts_collection, records_collection
 from bson import ObjectId
+from datetime import datetime
+import pytz
+
+lima_tz = pytz.timezone("America/Lima")
 
 
 # Simulación de base de datos en memoria
@@ -27,7 +31,7 @@ async def create_attempt(attempt: AttemptDto, record_id: str = Path(..., descrip
     attempt_object = AttemptSchema(
         time=attempt.time,
         errors_quantity=attempt.errors_quantity,
-        date=datetime.utcnow().isoformat()
+        date=datetime.now(lima_tz).replace(microsecond=0).strftime("%Y-%m-%d %H:%M:%S")
     )
 
     result = await attempts_collection.insert_one(attempt_object.dict())
