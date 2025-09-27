@@ -1,6 +1,6 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
-from routes import attempt_routes, exercice_history_routes
+from routes import attempt_routes, record_routes
 from database.database import test_connection
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -23,4 +23,4 @@ app.add_middleware(
 )
 
 app.include_router(attempt_routes.router, prefix="/attempts", tags=["Attempts"])
-app.include_router(exercice_history_routes.router, prefix="/exercice_histories", tags=["ExerciceHistories"])
+app.include_router(record_routes.router, prefix="/records", tags=["Records"])

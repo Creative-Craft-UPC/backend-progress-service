@@ -12,7 +12,7 @@ client = AsyncIOMotorClient(MONGO_URI, server_api=ServerApi('1'))
 database = client.CreativeCraftDB  
 
 attempts_collection = database.get_collection("attempts")
-exercice_histories_collection = database.get_collection("exercice_histories")
+records_collection = database.get_collection("records")
 
 async def test_connection():
     try:
