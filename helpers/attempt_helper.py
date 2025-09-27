@@ -3,4 +3,5 @@ def attempt_helper(attempt: dict) -> dict:
         "id": str(attempt["_id"]),
         "time": attempt["time"],
         "errors_quantity": attempt["errors_quantity"],
+        "date": attempt["date"],
     }
