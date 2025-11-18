@@ -1,8 +1,10 @@
 annotated-types==0.7.0
 anyio==4.9.0
 certifi==2025.6.15
+cffi==2.0.0
 click==8.2.1
 colorama==0.4.6
+cryptography==46.0.3
 dnspython==2.7.0
 email_validator==2.2.0
 fastapi==0.115.12
@@ -17,13 +19,16 @@ markdown-it-py==3.0.0
 MarkupSafe==3.0.2
 mdurl==0.1.2
 motor==3.7.1
+pycparser==2.23
 pydantic==2.11.5
 pydantic_core==2.33.2
 Pygments==2.19.1
+PyJWT==2.10.1
 pymongo==4.13.2
 python-dateutil==2.9.0.post0
 python-dotenv==1.1.0
 python-multipart==0.0.20
+pytz==2025.2
 PyYAML==6.0.2
 rich==14.0.0
 rich-toolkit==0.14.7
@@ -37,4 +42,3 @@ typing_extensions==4.14.0
 uvicorn==0.34.3
 watchfiles==1.0.5
 websockets==15.0.1
-pytz==2025.2
