@@ -1,8 +1,9 @@
 from datetime import datetime
-from fastapi import APIRouter, HTTPException, Path, status
+from fastapi import APIRouter, Depends, HTTPException, Path, status
 from typing import List
 
 from fastapi.responses import JSONResponse
+from auth.internal_dep import get_internal_principal
 from schemas.attempt_schema import AttemptDto, AttemptResponse, AttemptSchema
 from helpers.attempt_helper import attempt_helper
 from database.database import attempts_collection, records_collection
@@ -18,7 +19,7 @@ router = APIRouter()
 
 #POST
 @router.post("/{record_id}", response_model=AttemptResponse, status_code=status.HTTP_201_CREATED)
-async def create_attempt(attempt: AttemptDto, record_id: str = Path(..., description="Record Id")):
+async def create_attempt(attempt: AttemptDto, record_id: str = Path(..., description="Record Id"), principal=Depends(get_internal_principal)):
 
     if not ObjectId.is_valid(record_id):
         raise HTTPException(status_code=400, detail="ID del registro inválido")
@@ -60,7 +61,7 @@ async def create_attempt(attempt: AttemptDto, record_id: str = Path(..., descrip
 
 #GET
 @router.get("/", response_model=List[AttemptResponse])
-async def get_attempts():
+async def get_attempts(principal=Depends(get_internal_principal)):
     attempts = []
     async for attempt in attempts_collection.find():
         attempts.append(attempt_helper(attempt))
@@ -68,7 +69,7 @@ async def get_attempts():
 
 #GET BY RECORD ID
 @router.get("/{record_id}", response_model=List[AttemptResponse])
-async def get_attempt_by_id(record_id: str = Path(..., description="Record Id")):
+async def get_attempt_by_id(record_id: str = Path(..., description="Record Id"), principal=Depends(get_internal_principal)):
     if not ObjectId.is_valid(record_id):
         raise HTTPException(status_code=400, detail="ID del registro inválido")
 
@@ -85,7 +86,7 @@ async def get_attempt_by_id(record_id: str = Path(..., description="Record Id"))
 
 #DELETE
 @router.delete("/{attempt_id}", status_code=status.HTTP_204_NO_CONTENT)
-async def delete_attempt(attempt_id: str):
+async def delete_attempt(attempt_id: str, principal=Depends(get_internal_principal)):
     if not ObjectId.is_valid(attempt_id):
         raise HTTPException(status_code=400, detail="ID del registro inválido")
     attempt = await attempts_collection.find_one({"_id": ObjectId(attempt_id)})
